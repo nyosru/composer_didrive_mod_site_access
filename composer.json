@@ -1,7 +1,7 @@
 {
     "name": "didrive_mod/site_access",
     "description": "управление авторизациями пользователей сайта",
-    "version": "0.0.1",
+    "version": "0.0.3",
     
     "keywords": [
         "didrive", "module", "nyos", "uralweb.info"
@@ -26,9 +26,4 @@
         "didrive_mod/lk": ">=0.0.1"
         
     }
-    ,
-    "autoload": {
-        "files": ["class.php"]
-    }
-    
 }
