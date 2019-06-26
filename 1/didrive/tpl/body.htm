@@ -1,23 +1,44 @@
 
+<style>
+    .ava{ max-height: 150px; max-width: 150px; }
+</style>
+
 <div class="container-fluid">
     <div class="grid">
 
-        {# list #}
+        {% set users = getUsersSite(db) %}
+        {#{ pa(users) }#}
 
-        {# если редактирование, то показываем форму редактирования #}
+        <table class="table" >
+            {% for k,v in users %}
 
-        {#
-            {% if get.edit_id is defined and list.data[get.edit_id] is defined %}
+                {#{ pa(v) }#}
 
-                {% include 'vendor/didrive_mod/items/1/didrive/t/body.form_add.htm' %}
+                <tr>
+                    <td><img src="{{v.avatar}}" class="ava" ></td>
+                    <td>{{v.family}} {{v.name}}</td>
+                    <td><A href="{{v.soc_web_link}}" target="_blank" >{{v.soc_web_link}}</a></td>
+                    <td>
+                        <select class='form-control save_edit_select' 
+                                action='/didrive/ajax.php' 
+                                pole="access" 
+                                table="gm_user" 
+                                rev='{{ v.id }}' 
+                                >
+                            <option value='admin' s='{{ creatSecret( 'gm_user-access-' ~ v.id ~ 'admin' ) }}' 
+                                    {% if v.access is defined and v.access == 'admin' %} selected="selected" {% endif %} >
+                                Полный доступ</option>
+                            <option value='moder' s='{{ creatSecret( 'gm_user-access-' ~ v.id ~ 'moder' ) }}' 
+                                    {% if v.access is defined and v.access == 'moder' %} selected="selected" {% endif %} >
+                                Ограниченный доступ ( модератор )</option>
+                            <option value='block' s='{{ creatSecret( 'gm_user-access-' ~ v.id ~ 'block' ) }}' 
+                                    {% if v.access is defined and ( v.access == '' or v.access == 'block' ) %} selected="selected" {% endif %} >уровень доступа не определён</option>
+                        </select>
 
-            {% else %}
-
-                {% include 'vendor/didrive_mod/items/1/didrive/t/body.form_add.htm' %}
-                {% include 'vendor/didrive_mod/items/1/didrive/t/body.list_items.htm' %}
-
-            {% endif %}
-        #}
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
 
     </div>
 </div>
